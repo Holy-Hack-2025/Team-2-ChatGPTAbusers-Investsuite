@@ -1,11 +1,5 @@
 ﻿namespace Backend.model
 {
-    public enum Role
-    {
-        User,
-        Admin
-    }
-
     public class User
     {
         public int Id { get; set; }
