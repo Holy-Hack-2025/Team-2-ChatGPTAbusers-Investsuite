@@ -20,7 +20,7 @@ namespace Backend.Controllers
         [HttpGet("{symbol}")]
         public async Task<IActionResult> GetStockData(string symbol)
         {
-            
+            return BadRequest();
         }
     }
 }
