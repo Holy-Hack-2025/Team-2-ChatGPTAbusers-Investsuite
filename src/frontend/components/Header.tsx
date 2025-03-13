@@ -30,6 +30,12 @@ const Header: React.FC = () => {
                 >
                     Home
                 </Link>
+                <Link
+                    href="/quiz"
+                    className="px-4 py-2 text-white text-xl text-white hover:bg-purple-600 rounded-lg"
+                >
+                    Quiz
+                </Link>
                 {!loggedInUser && (
                     <Link
                         href="/auth"
