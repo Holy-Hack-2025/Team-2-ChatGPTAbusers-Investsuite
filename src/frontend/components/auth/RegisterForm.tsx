@@ -13,15 +13,12 @@ const RegisterForm: React.FC<Props> = ({ requestSwitch }: Props) => {
     const router = useRouter();
     const [username, setUsername] = useState<string>('');
     const [usernameError, setUsernameError] = useState<string | null>(null);
-    const [email, setEmail] = useState<string>('');
-    const [emailError, setEmailError] = useState<string | null>(null);
     const [password, setPassword] = useState<string>('');
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
 
     const clearErrors = () => {
         setUsernameError(null);
-        setEmailError(null);
         setPasswordError(null);
         setStatusMessages([]);
     };
@@ -29,9 +26,6 @@ const RegisterForm: React.FC<Props> = ({ requestSwitch }: Props) => {
     const validate = (): boolean => {
         let isValid = true;
         const usernameRegExp = new RegExp(/^[a-zA-Z0-9-_]*$/);
-        const emailRegExp = new RegExp(
-            /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        );
         const passwordRegExp = new RegExp(
             /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
         );
@@ -42,11 +36,6 @@ const RegisterForm: React.FC<Props> = ({ requestSwitch }: Props) => {
         }
         if (username.length < 3 || username.length > 25) {
             setUsernameError('Username must be between 3 and 25 characters.');
-            isValid = false;
-        }
-
-        if (!emailRegExp.test(email)) {
-            setEmailError(`Email must be in correct format (name@domain.com).`);
             isValid = false;
         }
 
@@ -66,7 +55,7 @@ const RegisterForm: React.FC<Props> = ({ requestSwitch }: Props) => {
             clearErrors();
 
             if (!validate()) return;
-            const response = await AuthService.registerUser({ username, email, password });
+            const response = await AuthService.registerUser({ username, password });
 
             if (response.status === 200) {
                 const registerResponse = await response.json();
@@ -121,7 +110,7 @@ const RegisterForm: React.FC<Props> = ({ requestSwitch }: Props) => {
                     </ul>
                 </div>
             )}
-            {[usernameError, emailError, passwordError].map(
+            {[usernameError, passwordError].map(
                 (error, i) =>
                     error && (
                         <div key={i} className="text-sm text-red-800 text-center mb-2">
@@ -146,24 +135,7 @@ const RegisterForm: React.FC<Props> = ({ requestSwitch }: Props) => {
                             className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue:500 block w-full p-2.5"
                         />
                     </div>
-                </div>
-                <div className="mt-2">
-                    <div>
-                        <label htmlFor="emailInput" className="block mb-2 text-sm font-medium">
-                            Email
-                        </label>
-                    </div>
-                    <div className="block mb-2 text-sm font-medium">
-                        <input
-                            id="emailInput"
-                            type="text"
-                            value={email}
-                            autoComplete="off"
-                            onChange={(e) => setEmail(e.target.value.replace(/ +/g, ''))}
-                            className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue:500 block w-full p-2.5"
-                        />
-                    </div>
-                </div>
+                </div>                
                 <div className="mt-2">
                     <div>
                         <label htmlFor="passwordInput" className="block mb-2 text-sm font-medium">
@@ -182,7 +154,7 @@ const RegisterForm: React.FC<Props> = ({ requestSwitch }: Props) => {
                     </div>
                 </div>
                 <button
-                    className="text-white text-center text-base bg-blue-500 border-2 border-blue-500 rounded-lg px-4 py-2 mt-2 hover:border-black"
+                    className="text-white text-center text-base bg-purple-500 border-2 border-purple-500 rounded-lg px-4 py-2 mt-2 hover:border-black"
                     type="submit"
                 >
                     Register

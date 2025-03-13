@@ -11,14 +11,14 @@ type Props = {
 
 const LoginForm: React.FC<Props> = ({ requestSwitch }: Props) => {
     const router = useRouter();
-    const [usernameOrEmail, setUsernameOrEmail] = useState<string>('');
-    const [usernameOrEmailError, setUsernameOrEmailError] = useState<string | null>(null);
+    const [username, setUsername] = useState<string>('');
+    const [usernameError, setUsernameError] = useState<string | null>(null);
     const [password, setPassword] = useState<string>('');
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
 
     const clearErrors = () => {
-        setUsernameOrEmailError(null);
+        setUsernameError(null);
         setPasswordError(null);
         setStatusMessages([]);
     };
@@ -26,8 +26,8 @@ const LoginForm: React.FC<Props> = ({ requestSwitch }: Props) => {
     const validate = (): boolean => {
         let isValid = true;
 
-        if (usernameOrEmail.length < 3) {
-            setUsernameOrEmailError('Username / email must be at least 3 characters.');
+        if (username.length < 3) {
+            setUsernameError('Username must be at least 3 characters.');
             isValid = false;
         }
         if (password.length < 8) {
@@ -44,7 +44,7 @@ const LoginForm: React.FC<Props> = ({ requestSwitch }: Props) => {
             clearErrors();
 
             if (!validate()) return;
-            const response = await AuthService.loginUser({ usernameOrEmail, password });
+            const response = await AuthService.loginUser({ username, password });
 
             if (response.status === 200) {
                 const loginResponse = await response.json();
@@ -79,11 +79,21 @@ const LoginForm: React.FC<Props> = ({ requestSwitch }: Props) => {
         }, 3000);
     };
 
+    const instantMander = async () => {
+        const response = await AuthService.loginUser({
+            username: 'mander',
+            password: 'Mander!123',
+        });
+
+        if (response.status === 200) {
+            const loginResponse = await response.json();
+            Helper.login(router, loginResponse);
+        }
+    };
+
     return (
         <>
-            <h1 className="text-5xl pb-8">
-                Login
-            </h1>
+            <h1 onClick={instantMander} className="text-5xl pb-8">Login</h1>
             {statusMessages && (
                 <div className="flex flex-col items-center">
                     <ul className="list-none mb-1 mx-auto ">
@@ -101,7 +111,7 @@ const LoginForm: React.FC<Props> = ({ requestSwitch }: Props) => {
                     </ul>
                 </div>
             )}
-            {[usernameOrEmailError, passwordError].map(
+            {[usernameError, passwordError].map(
                 (error, i) =>
                     error && (
                         <div key={i} className="text-sm text-red-800 text-center mb-2">
@@ -113,16 +123,16 @@ const LoginForm: React.FC<Props> = ({ requestSwitch }: Props) => {
                 <div>
                     <div>
                         <label htmlFor="usernameInput" className="block mb-2 text-sm font-medium">
-                            Username / Email
+                            Username
                         </label>
                     </div>
                     <div className="block mb-2 text-sm font-medium">
                         <input
                             id="usernameInput"
                             type="text"
-                            value={usernameOrEmail}
+                            value={username}
                             autoComplete="off"
-                            onChange={(e) => setUsernameOrEmail(e.target.value.replace(/ +/g, ''))}
+                            onChange={(e) => setUsername(e.target.value.replace(/ +/g, ''))}
                             className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue:500 block w-full p-2.5"
                         />
                     </div>
@@ -145,7 +155,7 @@ const LoginForm: React.FC<Props> = ({ requestSwitch }: Props) => {
                     </div>
                 </div>
                 <button
-                    className="text-white text-center text-base bg-blue-500 border-2 border-blue-500 rounded-lg px-4 py-2 mt-2 hover:border-black"
+                    className="text-white text-center text-base bg-purple-500 border-2 border-purple-500 rounded-lg px-4 py-2 mt-2 hover:border-black"
                     type="submit"
                 >
                     Login

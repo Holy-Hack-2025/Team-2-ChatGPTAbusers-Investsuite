@@ -1,10 +1,8 @@
 const registerUser = async ({
     username,
-    email,
     password,
 }: {
     username: string;
-    email: string;
     password: string;
 }) => {
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/User/register`, {
@@ -12,15 +10,15 @@ const registerUser = async ({
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username, password }),
     });
 };
 
 const loginUser = async ({
-    usernameOrEmail,
+    username,
     password,
 }: {
-    usernameOrEmail: string;
+    username: string;
     password: string;
 }) => {
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/User/login`, {
@@ -28,7 +26,7 @@ const loginUser = async ({
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ usernameOrEmail, password }),
+        body: JSON.stringify({ username, password }),
     });
 };
 
