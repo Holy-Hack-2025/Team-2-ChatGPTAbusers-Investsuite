@@ -47,12 +47,9 @@ const Header: React.FC = () => {
                         >
                             Logout
                         </Link>
-                        <Link
-                            href="/account"
-                            className="px-4 py-2 text-white text-xl text-white hover:bg-purple-600 border-l"
-                        >
+                        <p className="px-4 py-2 text-white text-xl text-white border-l">
                             {loggedInUser.username}
-                        </Link>{' '}
+                        </p>
                     </>
                 )}
             </nav>
