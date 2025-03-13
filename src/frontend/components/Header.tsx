@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Role, User } from '../types/index';
+import { User } from '@types';
 import { useRouter } from 'next/router';
 
 const Header: React.FC = () => {
@@ -39,15 +39,7 @@ const Header: React.FC = () => {
                             className="px-4 pt-1 pb-2 text-white text-xl text-white hover:bg-gray-600 rounded-lg"
                         >
                             Home
-                        </Link>
-                        {loggedInUser.role === Role.ADMIN ? (
-                            <Link
-                                href="/admin"
-                                className="px-4 pt-1 pb-2 text-white text-xl text-white hover:bg-gray-600 rounded-lg"
-                            >
-                                Admin Panel
-                            </Link>
-                        ) : null}
+                        </Link>                        
                         <Link
                             href="/"
                             onClick={handleLogout}
