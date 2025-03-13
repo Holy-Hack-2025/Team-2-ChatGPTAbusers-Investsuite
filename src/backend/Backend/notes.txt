@@ -1,0 +1,5 @@
+create migration:
+
+-open terminal to C:\Users\lande\source\repos\Backend\Backend
+-dotnet ef migrations add MIGRATION_NAME
+-dotnet ef database update

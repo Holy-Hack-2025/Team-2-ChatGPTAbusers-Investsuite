@@ -1,0 +1,23 @@
+# Backend (.NET)
+bin/
+obj/
+.vs/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Log files
+*.log
+
+# IIS Express (if applicable)
+iisexpress/
+
+# DotCover (code coverage tool)
+.idea/dotCover/

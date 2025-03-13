@@ -1,0 +1,4 @@
+@Backend_HostAddress = http://localhost:5263
+
+GET {{Backend_HostAddress}}/gamehub/
+Accept: application/json

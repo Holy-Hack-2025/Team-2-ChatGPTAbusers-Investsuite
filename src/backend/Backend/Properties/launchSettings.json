@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "Backend": {
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:5263",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "launchBrowser": true,
+      "webServer": {
+        "useSwagger": true
+      }
+    }
+  }
+}
