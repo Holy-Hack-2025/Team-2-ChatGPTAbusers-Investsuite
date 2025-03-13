@@ -1,10 +1,14 @@
-export enum Role {
-    ADMIN = 'ADMIN',
-    USER = 'USER',
-}
+export type Auth = {
+    username: string;
+    token: string;
+};
 
 export type User = {
     id: number;
     username: string;
-    role: Role;
+};
+
+export type StatusMessage = {
+    message: string;
+    type: 'error' | 'success';
 };
