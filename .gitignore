@@ -1,0 +1,31 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/src/backend/Backend/appsettings.Development.json
+
+# Backend (.NET)
+bin/
+obj/
+.vs/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Log files
+*.log
+
+# IIS Express (if applicable)
+iisexpress/
+
+# DotCover (code coverage tool)
+.idea/dotCover/
+
+appsettings.Development.json
