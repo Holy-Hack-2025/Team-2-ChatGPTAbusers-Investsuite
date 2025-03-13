@@ -2,7 +2,9 @@
 using Backend.model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using System.Net.Http;
+using YahooFinanceApi;
 
 namespace Backend.Controllers
 {
@@ -12,36 +14,35 @@ namespace Backend.Controllers
     {
         private readonly BackendDbContext _db;
         private readonly HttpClient _httpClient;
-        private readonly string _polygonApiKey;
 
         public StockController(BackendDbContext db, IConfiguration configuration)
         {
             _db = db;
             _httpClient = new HttpClient();
-            _polygonApiKey = configuration["Polygon:ApiKey"] ?? "";
         }
 
         [HttpGet("{symbol}")]
-        public async Task<IActionResult> GetStockData(string symbol)
+        public async Task<IActionResult> GetStockHistory(string symbol)
         {
-            if (string.IsNullOrEmpty(_polygonApiKey))
-            {
-                return BadRequest("Polygon API key is missing.");
-            }
-
-            string url = $"https://api.polygon.io/v2/last/trade/{symbol}?apiKey={_polygonApiKey}";
+            string url = $"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?interval=1d&range=30d";
 
             try
             {
+                _httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0");
+
                 HttpResponseMessage response = await _httpClient.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
-                return Ok(responseBody);
+                response.EnsureSuccessStatusCode(); // Throw exception if not 200 OK
+
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+
+
+                return Ok(jsonResponse);
             }
             catch (HttpRequestException ex)
             {
-                return StatusCode(500, $"Error fetching stock data: {ex.Message}");
+                return StatusCode(500, $"Error fetching data: {ex.Message}");
             }
         }
+
     }
 }
