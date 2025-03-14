@@ -32,7 +32,7 @@ namespace Backend.Controllers
             var stock = await _db.Stocks.FirstOrDefaultAsync(s => s.Token == token);
             if (stock == null)
             {
-                //TODO: validate that the stock is real
+                //validate that the stock is real
                 var stockInfo = await GetStockInfo(token);
 
                 if (stockInfo == null)
@@ -41,7 +41,7 @@ namespace Backend.Controllers
                 }
 
                 //create
-                stock = new() { Token = token, UserId = userId.Value, Amount = amount };
+                stock = new() { Token = stockInfo.Token, UserId = userId.Value, Amount = amount, Name = stockInfo.Name };
                 await _db.Stocks.AddAsync(stock);
                 _db.SaveChanges();
                 return Ok(stock);
@@ -79,41 +79,11 @@ namespace Backend.Controllers
         [HttpGet("{token}")]
         public async Task<ActionResult<StockInfo>> GetStockHistory(string token)
         {
-            string url = $"https://query1.finance.yahoo.com/v8/finance/chart/{token}?interval=1d&range=30d";
+            var data = await GetStockInfo(token);
 
-            try
-            {
-                _httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0");
+            if (data == null) return BadRequest();
 
-                HttpResponseMessage response = await _httpClient.GetAsync(url);
-                response.EnsureSuccessStatusCode(); // Throw exception if not 200 OK
-
-                string jsonResponse = await response.Content.ReadAsStringAsync();
-
-                JObject jsonObject = JObject.Parse(jsonResponse);
-
-                var test = jsonObject.SelectToken("chart.result[0].meta.currency");
-
-                //try catch?
-                var data = new StockInfo()
-                {
-                    Currency = jsonObject.SelectToken("chart.result[0].meta.currency").ToString(),
-                    Token = jsonObject.SelectToken("chart.result[0].meta.symbol").ToString(),
-                    RegularMarketPrice = float.Parse(jsonObject.SelectToken("chart.result[0].meta.regularMarketPrice").ToString()),
-                };
-
-                var historicPrices = jsonObject.SelectToken("chart.result[0].indicators.quote[0].close").Values();
-                foreach (var jsonPrice in historicPrices)
-                {
-                    data.HistoricPrices.Add(float.Parse(jsonPrice.ToString()));
-                }
-
-                return Ok(data);
-            }
-            catch (HttpRequestException ex)
-            {
-                return BadRequest();
-            }
+            return Ok(data);
         }
 
         [HttpGet("question")]
@@ -177,6 +147,7 @@ namespace Backend.Controllers
                     Currency = jsonObject.SelectToken("chart.result[0].meta.currency").ToString(),
                     Token = jsonObject.SelectToken("chart.result[0].meta.symbol").ToString(),
                     RegularMarketPrice = float.Parse(jsonObject.SelectToken("chart.result[0].meta.regularMarketPrice").ToString()),
+                    Name = jsonObject.SelectToken("chart.result[0].meta.shortName").ToString()
                 };
 
                 var historicPrices = jsonObject.SelectToken("chart.result[0].indicators.quote[0].close").Values();
