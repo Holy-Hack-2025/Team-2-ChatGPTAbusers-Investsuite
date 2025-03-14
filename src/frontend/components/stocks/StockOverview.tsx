@@ -17,10 +17,11 @@ const StockOverview: React.FC<Props> = ({ stock, amount, showStatusMessage }: Pr
     };
 
     return (
-        <li className="flex items-center gap-4">
+        <li className="flex items-center w-96 gap-4">
             <p>
                 {stock} ({currentAmount})
             </p>
+            <div className='flex-grow' />
             <ManageStockComponent
                 stock={stock}
                 amount={currentAmount}

@@ -62,7 +62,7 @@ const Stocks: React.FC = () => {
                 )}
                 <div className="flex flex-col items-center justify-center gap-4">
                     {stocks && (
-                        <ul className="flex flex-col items-center gap-8">
+                        <ul className="flex flex-col items-center gap-8 my-6">
                             {stocks.map((stock, i) => (
                                 <StockOverview
                                     key={i}

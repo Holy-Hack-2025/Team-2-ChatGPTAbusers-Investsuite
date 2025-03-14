@@ -26,7 +26,7 @@ const QuestionOverview: React.FC<Props> = ({ question, handleAnswer }: Props) =>
         <div className="flex flex-col w-full">
             {viewMode === 'questionToGraphs' ? (
                 <>
-                    <h3 className="text-black text-center text-2xl mt-3">What is the graph of '{question.token}'</h3>
+                    <h3 className="text-black text-center text-2xl mt-3">What is the graph of '{question.name}'</h3>
                     <div className="text-black grid grid-cols-2 gap-3 p-3">
                         {question.options.map((option: any, index: number) => (
                             <button
@@ -74,7 +74,7 @@ const QuestionOverview: React.FC<Props> = ({ question, handleAnswer }: Props) =>
                                 className={`w-full rounded p-4 cursor-pointer text-lg font-semibold ${colors[index]}`}
                                 onClick={() => handleAnswer(option.token)}
                             >
-                                {option.token}
+                                {option.name}
                             </button>
                         ))}
                     </div>

@@ -66,16 +66,16 @@ const ManageStockComponent: React.FC<Props> = ({ stock, amount, changeAmount }: 
 
     return (
         <>
-            <div className="flex flex-row items-center justify-between">
+            <div className="flex flex-row items-center justify-between gap-3">
                 <button
                     onClick={handleAdd}
-                    className="text-white text-center text-base bg-purple-500 border-2 border-purple-500 rounded-lg px-4 py-2 hover:border-black"
+                    className="text-white text-center text-base bg-purple-500 border-2 border-purple-500 rounded-lg w-10 aspect-square hover:border-black"
                 >
                     +
                 </button>
                 <button
                     onClick={handleSubtract}
-                    className="text-white text-center text-base bg-purple-500 border-2 border-purple-500 rounded-lg px-4 py-2 hover:border-black"
+                    className="text-white text-center text-base bg-purple-500 border-2 border-purple-500 rounded-lg w-10 aspect-square hover:border-black"
                 >
                     -
                 </button>

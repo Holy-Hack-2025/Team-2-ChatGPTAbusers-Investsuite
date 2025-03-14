@@ -68,7 +68,7 @@ const Quiz: React.FC = () => {
                             <p className='my-3'>The correct answer was:</p>
                             <LineGraph
                             lineGraphOptions={{
-                                title: question.token,
+                                title: question.name,
                                 yTitle: `Stock Price (${question.options.find((option: any) => option.token === question.token).currency})`,
                                 xTitle: 'Last 30 days',
                                 start: 0,
