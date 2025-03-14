@@ -3,7 +3,7 @@ const getQuestion = (): Promise<Response> => {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoibWFuZGVyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxIiwiZXhwIjoxNzQxOTU4MzEzLCJpc3MiOiJIb2x5SGFjayIsImF1ZCI6IkhvbHlIYWNrVXNlcnMifQ.OOxVRCyBzAX-BJ-BtQwxOMUyjfzZJ28ZkMq12y3jjKg`,
+            Authorization: getToken(),
         },
     });
 };
@@ -15,7 +15,7 @@ const getToken = (): string => {
 };
 
 const quizService = {
-    getQuestion
+    getQuestion,
 };
 
 export default quizService;

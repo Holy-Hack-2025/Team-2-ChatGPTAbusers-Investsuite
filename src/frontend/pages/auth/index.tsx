@@ -13,7 +13,7 @@ const Auth: React.FC = () => {
                 <title>{register ? 'Register' : 'Login'}</title>
             </Head>
             <Header />
-            <main className="flex-grow bg-stone-100 flex items-center justify-center">    
+            <main className="flex-grow bg-stone-100 flex items-center justify-center text-black">    
                 <div className="w-screen flex flex-col items-center m-auto">
                     {register ? (
                         <RegisterForm requestSwitch={setRegister} />

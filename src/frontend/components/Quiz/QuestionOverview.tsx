@@ -1,5 +1,4 @@
 import LineGraph from '@components/graphs/LineGraph';
-import PieGraph from '@components/graphs/PieGraph';
 
 type Props = {
     question: any;
@@ -25,14 +24,14 @@ const QuestionOverview: React.FC<Props> = ({ question, handleAnswer }: Props) =>
                     >
                         <span className="text-lg font-semibold">{option.token}</span>
 
-                        {option.type === 'line' && option.data ? (
+                        {option.historicPrices ? (
                             <LineGraph 
                                 lineGraphOptions={{
                                     title: option.token,
                                     yTitle: 'Value',
-                                    xTitle: 'Time',
-                                    start: 2015,
-                                    series: [{data:option.data, name: option.title}]
+                                    xTitle: 'Last 30 days',
+                                    start: 0,
+                                    series: [{data:option.historicPrices, name: option.token}]
                                 }}
                             />
                         ) : (
