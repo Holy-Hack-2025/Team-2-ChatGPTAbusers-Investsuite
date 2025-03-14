@@ -8,9 +8,9 @@ type Props = {
 
 const LineGraph: React.FC<Props> = ({ lineGraphOptions }: Props) => {
     const options = {
-        chart: { width: 512, height: 256 },
+        chart: { width: 512, height: 240 },
         title: {
-            text: lineGraphOptions.title ?? '???',
+            text: lineGraphOptions.title ?? ' ',
             align: 'center',
         },
         yAxis: {

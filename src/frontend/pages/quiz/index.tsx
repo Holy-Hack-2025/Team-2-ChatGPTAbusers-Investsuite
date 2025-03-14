@@ -8,6 +8,8 @@ const Quiz: React.FC = () => {
     const [mode, setMode] = useState<string>("start");
     const [question, setQuestion] = useState<any>(null);
     const [answer, setAnswer] = useState<boolean>(true);
+    const [score, setScore] = useState<number>(0);
+    const [questionsAnswered, setQuestionsAnswered] = useState<number>(0);
 
     const getQuestion = async () => {
         const response = await quizService.getQuestion();
@@ -29,6 +31,10 @@ const Quiz: React.FC = () => {
 
         setAnswer(isTrue);
         setMode('answer');
+        if (isTrue) {
+            setScore(score + 1);
+        }
+        setQuestionsAnswered(questionsAnswered + 1);
     }
 
     return (
@@ -52,6 +58,7 @@ const Quiz: React.FC = () => {
                 )}
                 {mode == 'answer' && (
                     <div className="flex flex-col items-center">
+                        <h2 className='text-black text-3xl'>Score: {score}/{questionsAnswered}</h2>
                         {answer == true ? (
                             <h1 className="text-7xl text-green-500 align-center">Correct!</h1>
                             

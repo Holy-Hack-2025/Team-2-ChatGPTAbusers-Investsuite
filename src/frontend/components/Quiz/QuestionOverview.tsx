@@ -9,6 +9,8 @@ type Props = {
 const QuestionOverview: React.FC<Props> = ({ question, handleAnswer }: Props) => {
     const [viewMode, setViewMode] = useState<'questionToGraphs' | 'graphToQuestions'>('questionToGraphs');
 
+    const colors = ['bg-red-400', 'bg-blue-400', 'bg-green-400', 'bg-yellow-400'];
+
     // Randomly select the view mode when the component mounts or when the question changes
     useEffect(() => {
         setViewMode(Math.random() > 0.5 ? 'questionToGraphs' : 'graphToQuestions');
@@ -24,12 +26,12 @@ const QuestionOverview: React.FC<Props> = ({ question, handleAnswer }: Props) =>
         <div className="flex flex-col w-full">
             {viewMode === 'questionToGraphs' ? (
                 <>
-                    <h3 className="text-black text-center">What is the graph of '{question.token}'</h3>
+                    <h3 className="text-black text-center text-2xl mt-3">What is the graph of '{question.token}'</h3>
                     <div className="text-black grid grid-cols-2 gap-3 p-3">
                         {question.options.map((option: any, index: number) => (
                             <button
                                 key={index}
-                                className="w-full bg-gray-200 rounded p-4 cursor-pointer flex flex-col items-center gap-2"
+                                className={`w-full rounded p-4 cursor-pointer flex flex-col items-center gap-2 ${colors[index]}`}
                                 onClick={() => handleAnswer(option.token)}
                             >
                                 {option.historicPrices ? (
@@ -50,7 +52,7 @@ const QuestionOverview: React.FC<Props> = ({ question, handleAnswer }: Props) =>
                 </>
             ) : (
                 <>
-                    <h3 className="text-black text-center">What matches this graph?</h3>
+                    <h3 className="text-black text-center text-2xl">What matches this graph?</h3>
                     <div className="flex justify-center p-3">
                         {question.options[0].historicPrices ? (
                             <LineGraph
@@ -69,7 +71,7 @@ const QuestionOverview: React.FC<Props> = ({ question, handleAnswer }: Props) =>
                         {question.options.map((option: any, index: number) => (
                             <button
                                 key={index}
-                                className="w-full bg-gray-200 rounded p-4 cursor-pointer text-lg font-semibold"
+                                className={`w-full rounded p-4 cursor-pointer text-lg font-semibold ${colors[index]}`}
                                 onClick={() => handleAnswer(option.token)}
                             >
                                 {option.token}
