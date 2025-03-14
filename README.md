@@ -1,6 +1,6 @@
 # Holy Hack - repo team ChatGPTAbusers
 
-Welcome to our amazing project 😎. We made a quiz website where you can guess the trajectories of each of your stocks. For now there are 2 types of questions, either you guess the company based on its graph or vice versa. 🥖
+Welcome to our amazing project 😎. We made a quiz website where you can guess the trajectories of each of your stocks. For now there are 2 types of questions, either you guess the company based on its graph or vice versa. 💆🏽‍♀️
 
 The project is split up in front- and back-end. 🚀
 
