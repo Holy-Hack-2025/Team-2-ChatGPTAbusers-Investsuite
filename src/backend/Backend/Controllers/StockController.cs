@@ -56,10 +56,10 @@ namespace Backend.Controllers
 
         }
 
-        [HttpGet("{symbol}")]
-        public async Task<IActionResult> GetStockHistory(string symbol)
+        [HttpGet("{token}")]
+        public async Task<ActionResult<StockInfo>> GetStockHistory(string token)
         {
-            string url = $"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?interval=1d&range=30d";
+            string url = $"https://query1.finance.yahoo.com/v8/finance/chart/{token}?interval=1d&range=30d";
 
             try
             {
@@ -96,8 +96,8 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpGet("/quiz")]
-        public async Task<IActionResult> GetQuiz()
+        [HttpGet("question")]
+        public async Task<IActionResult> GetQuestion()
         {
             var userId = GetUserIdFromToken();
 
@@ -105,25 +105,71 @@ namespace Backend.Controllers
                 return Unauthorized("User ID not found in token.");
 
 
-            var userStocks = _db.Stocks.Where(x => x.UserId == userId).ToList();
+            var userStocks = _db.Stocks.Where(x => x.UserId == userId).OrderBy(x => Guid.NewGuid()).ToList();
 
-            List<string> stocksString = new List<string>();
-
-            foreach (var stock in userStocks)
+            if (userStocks.Count < 4)
             {
-                string url = $"https://query1.finance.yahoo.com/v8/finance/chart/{stock.Token}?interval=1d&range=30d";
+                return BadRequest("You need more stocks");
+            }
 
+            var tasks = userStocks
+                        .Select(async stock => await GetStockInfo(stock.Token))
+                        .ToList();
+
+            var stockInfos = await Task.WhenAll(tasks);
+            var stocks = stockInfos.Where(s => s != null).ToList();
+
+            if (stocks.Count < 4)
+            {
+                return BadRequest("You need more real stocks");
+            }
+
+            var question = new
+            {
+                Token = stocks.OrderBy(x => Guid.NewGuid()).First()?.Token,
+                Options = stocks.Take(4)
+            };
+
+            return Ok(question);
+        }
+
+        private async Task<StockInfo?> GetStockInfo(string token)
+        {
+            string url = $"https://query1.finance.yahoo.com/v8/finance/chart/{token}?interval=1d&range=30d";
+
+            try
+            {
                 _httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0");
 
                 HttpResponseMessage response = await _httpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode(); // Throw exception if not 200 OK
 
-                if (response.StatusCode == HttpStatusCode.OK)
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+
+                JObject jsonObject = JObject.Parse(jsonResponse);
+
+                var test = jsonObject.SelectToken("chart.result[0].meta.currency");
+
+                //try catch?
+                var data = new StockInfo()
                 {
-                    stocksString.Add(await response.Content.ReadAsStringAsync());
-                }
-            }
+                    Currency = jsonObject.SelectToken("chart.result[0].meta.currency").ToString(),
+                    Token = jsonObject.SelectToken("chart.result[0].meta.symbol").ToString(),
+                    RegularMarketPrice = float.Parse(jsonObject.SelectToken("chart.result[0].meta.regularMarketPrice").ToString()),
+                };
 
-            return BadRequest();
+                var historicPrices = jsonObject.SelectToken("chart.result[0].indicators.quote[0].close").Values();
+                foreach (var jsonPrice in historicPrices)
+                {
+                    data.HistoricPrices.Add(float.Parse(jsonPrice.ToString()));
+                }
+
+                return data;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         private int? GetUserIdFromToken()
