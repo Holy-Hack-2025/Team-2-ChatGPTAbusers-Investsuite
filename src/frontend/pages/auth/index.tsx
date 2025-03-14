@@ -8,12 +8,12 @@ const Auth: React.FC = () => {
     const [register, setRegister] = useState<boolean>(false);
 
     return (
-        <>
+        <div className="flex flex-col h-screen">
             <Head>
                 <title>{register ? 'Register' : 'Login'}</title>
             </Head>
             <Header />
-            <main className="h-screen flex bg-stone-100 text-black">    
+            <main className="flex-grow bg-stone-100 flex items-center justify-center">    
                 <div className="w-screen flex flex-col items-center m-auto">
                     {register ? (
                         <RegisterForm requestSwitch={setRegister} />
@@ -22,7 +22,7 @@ const Auth: React.FC = () => {
                     )}
                 </div>
             </main>
-        </>
+        </div>
     );
 };
 

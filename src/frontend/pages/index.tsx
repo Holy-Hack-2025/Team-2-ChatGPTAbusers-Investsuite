@@ -11,7 +11,7 @@ const Home: React.FC = () => {
     const [close, setClose] = useState<Array<number>>([]);
 
     return (
-        <>
+        <div className="flex flex-col h-screen">
             <Head>
                 <title>Frontend</title>
                 <meta name="description" content="Watchlist app" />
@@ -19,16 +19,7 @@ const Home: React.FC = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Header></Header>
-            <main className="h-screen bg-stone-100 content-center">
-                {meta && close && (
-                    <div className="flex flex-col gap-4 text-black text-xs">
-                        <div className="flex gap-4">
-                            <h1>META:</h1>
-                            <p>{JSON.stringify(meta)}</p>
-                            <p>{close.forEach((e) => console.log(e))}</p>
-                        </div>
-                    </div>
-                )}
+            <main className="flex-grow bg-stone-100 flex items-center justify-center">
                 <div className="flex flex flex-col items-center">
                     <h1 className="mt-2 text-7xl text-gray-800">Welcome</h1>
                     <div className="flex gap-4">
@@ -119,7 +110,7 @@ const Home: React.FC = () => {
                     </div>
                 </div>
             </main>
-        </>
+        </div>
     );
 };
 
