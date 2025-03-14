@@ -1,6 +1,8 @@
 ﻿using Backend.Data;
+using Backend.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Security.Claims;
 
@@ -31,6 +33,7 @@ namespace Backend.Controllers
             var stock = await _db.Stocks.FirstOrDefaultAsync(s => s.Token == token);
             if (stock == null)
             {
+                //TODO: validate that the stock is real
                 //create
                 stock = new() { Token = token, UserId = userId.Value, Amount = amount };
                 await _db.Stocks.AddAsync(stock);
@@ -67,8 +70,25 @@ namespace Backend.Controllers
 
                 string jsonResponse = await response.Content.ReadAsStringAsync();
 
+                JObject jsonObject = JObject.Parse(jsonResponse);
 
-                return Ok(jsonResponse);
+                var test = jsonObject.SelectToken("chart.result[0].meta.currency");
+
+                //try catch?
+                var data = new StockInfo()
+                {
+                    Currency = jsonObject.SelectToken("chart.result[0].meta.currency").ToString(),
+                    Token = jsonObject.SelectToken("chart.result[0].meta.symbol").ToString(),
+                    RegularMarketPrice = float.Parse(jsonObject.SelectToken("chart.result[0].meta.regularMarketPrice").ToString()),
+                };
+
+                var historicPrices = jsonObject.SelectToken("chart.result[0].indicators.quote[0].close").Values();
+                foreach (var jsonPrice in historicPrices)
+                {
+                    data.HistoricPrices.Add(float.Parse(jsonPrice.ToString()));
+                }
+
+                return Ok(data);
             }
             catch (HttpRequestException ex)
             {
