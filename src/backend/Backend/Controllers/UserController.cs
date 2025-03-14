@@ -53,6 +53,8 @@ namespace Backend.Controllers
             _db.Users.Add(user);
             await _db.SaveChangesAsync();
 
+            await AddStockData(user.Id);
+
             return Ok(new LoginResponse {
                 Token = GenerateJwtToken(user),
                 Username = user.Username
@@ -76,6 +78,31 @@ namespace Backend.Controllers
                 Token = GenerateJwtToken(user),
                 Username = user.Username
             });
+        }
+
+        private async Task AddStockData(int userId)
+        {
+            List<Stock> stocks = new List<Stock>
+            {
+                new Stock { Token = "AAPL", UserId = userId, Amount = 10 },
+                new Stock { Token = "GOOGL", UserId = userId, Amount = 5 },
+                new Stock { Token = "MSFT", UserId = userId, Amount = 8 },
+                new Stock { Token = "AMZN", UserId = userId, Amount = 8 },
+                new Stock { Token = "MSFT", UserId = userId, Amount = 8 },
+                new Stock { Token = "META", UserId = userId, Amount = 8 },
+                new Stock { Token = "NVDA", UserId = userId, Amount = 8 },
+                new Stock { Token = "IBM", UserId = userId, Amount = 8 },
+                new Stock { Token = "TSLA", UserId = userId, Amount = 8 },
+                new Stock { Token = "NFLX", UserId = userId, Amount = 8 },
+                new Stock { Token = "JNJ", UserId = userId, Amount = 8 },
+                new Stock { Token = "WMT", UserId = userId, Amount = 8 },
+                new Stock { Token = "CO", UserId = userId, Amount = 8 },
+                new Stock { Token = "CSCO", UserId = userId, Amount = 8 },
+                new Stock { Token = "MCD", UserId = userId, Amount = 8 },
+            };
+
+            await _db.Stocks.AddRangeAsync(stocks);
+            await _db.SaveChangesAsync();
         }
 
         private string GenerateJwtToken(User user)
