@@ -3,6 +3,7 @@ import Header from '@components/Header';
 import quizService from '@services/quizService';
 import { useState } from 'react';
 import QuestionOverview from '@components/Quiz/QuestionOverview';
+import LineGraph from '@components/graphs/LineGraph';
 
 const Quiz: React.FC = () => {
     const [mode, setMode] = useState<string>("start");
@@ -62,9 +63,16 @@ const Quiz: React.FC = () => {
                         {answer == true ? (
                             <h1 className="text-7xl text-green-500 align-center">Correct!</h1>
                             
-                        ): (
-                            <h1 className="text-7xl text-red-500 align-center">Incorrect!</h1>
-                        )}
+                        ): ( <>
+                            <h1 className="text-7xl text-red-500 align-center">Incorrect! The correct answer was  
+                            </h1> <LineGraph
+                            lineGraphOptions={{
+                                title: question.options[0].token,
+                                yTitle: `Stock Price (${question.options[0].currency})`,
+                                xTitle: 'Last 30 days',
+                                start: 0,
+                                series: [{ data: question.options[0].historicPrices, name: question.options[0].token }],
+                            }}/> </>)}
                         <button className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={getQuestion}>Next question</button>
                     </div>
                 )}
