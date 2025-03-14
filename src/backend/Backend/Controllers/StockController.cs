@@ -1,6 +1,7 @@
 ﻿using Backend.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using System.Security.Claims;
 
 namespace Backend.Controllers
@@ -73,6 +74,36 @@ namespace Backend.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        [HttpGet("/quiz")]
+        public async Task<IActionResult> GetQuiz()
+        {
+            var userId = GetUserIdFromToken();
+
+            if (userId == null)
+                return Unauthorized("User ID not found in token.");
+
+
+            var userStocks = _db.Stocks.Where(x => x.UserId == userId).ToList();
+
+            List<string> stocksString = new List<string>();
+
+            foreach (var stock in userStocks)
+            {
+                string url = $"https://query1.finance.yahoo.com/v8/finance/chart/{stock.Token}?interval=1d&range=30d";
+
+                _httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0");
+
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    stocksString.Add(await response.Content.ReadAsStringAsync());
+                }
+            }
+
+            return BadRequest();
         }
 
         private int? GetUserIdFromToken()
