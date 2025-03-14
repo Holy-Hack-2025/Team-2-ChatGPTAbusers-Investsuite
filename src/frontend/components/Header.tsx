@@ -30,12 +30,7 @@ const Header: React.FC = () => {
                 >
                     Home
                 </Link>
-                <Link
-                    href="/quiz"
-                    className="px-4 py-2 text-white text-xl text-white hover:bg-purple-600 rounded-lg"
-                >
-                    Quiz
-                </Link>
+                
                 {!loggedInUser && (
                     <Link
                         href="/auth"
@@ -46,6 +41,12 @@ const Header: React.FC = () => {
                 )}
                 {loggedInUser && (
                     <>
+                    <Link
+                    href="/quiz"
+                    className="px-4 py-2 text-white text-xl text-white hover:bg-purple-600 rounded-lg"
+                >
+                    Quiz
+                </Link>
                         <Link
                             href="/"
                             onClick={handleLogout}
@@ -53,6 +54,7 @@ const Header: React.FC = () => {
                         >
                             Logout
                         </Link>
+                        
                         <p className="px-4 py-2 text-white text-xl text-white border-l">
                             {loggedInUser.username}
                         </p>
