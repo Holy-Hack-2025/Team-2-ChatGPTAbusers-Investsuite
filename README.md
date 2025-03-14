@@ -1,38 +1,30 @@
 # Holy Hack - repo team ChatGPTAbusers
 
-Welcome to your personal Holy Hack GitHub repository! This serves as a central hub for submitting your code to be reviewed during the judging sessions. You should modify this README file to better explain your project to the judges, making it easier for them to understand your work.
+Welcome to our amazing project 😎. We made a quiz website where you can guess the trajectories of each of your stocks. For now there are 2 types of questions, either you guess the company based on its graph or vice versa. 🥖
 
-## 🚀 Getting Started
+The project is split up in front- and back-end. 🚀
 
-Each team will be given its own repository within the **Holy Hack** GitHub organization, this is your personal repo. Follow these steps to participate:
+## 🖥️ Front-end
 
-1. **Clone this repository to your local machine using**:
-   ```sh
-   git clone https://github.com/HOLY-HACK-ORGANIZATION/YOUR-TEAM-REPO.git
-   ```
-2. **Add your project files to the appropriate directory in your team's repository**.
-3. **Commit and push your changes**:
-   ```sh
-   git add .
-   git commit -m "added my feature"
-   git push origin my-feature
-   ```
-4. **Submit a pull request (PR)** to your team's repository for code review and merge.
+The front-end is written in NextJS (React).
 
-## Repository Structure (Per Team)
+### Pages
 
-```
-YOUR-TEAM-REPO/
-│-- README.md # Documentation for your team's project
-│-- src/ # source directory
-│-- docs/ # Additional documentation or assets
-```
+- Home: this page is useless. 🤯
+- Login & register: here you can access your account. 🔐
+- Quiz: this is our main page, in here you can play the quiz, see your score and learn about your stocks. 🧠
+- Stocks: this is an overview of your owned stocks, you can also update them here. 📈
 
-## Contribution Guidelines
+## 💾 Back-end
 
-- Make sure your code is clean and well documented.
-- Follow coding standards and best practices.
-- Submit your projects before the 16:00 deadline.
+The back-end is a REST API writen in ASP.NET with Entity Framework. It can easily be expanded to fit more requirements in the future. ⚙️
 
-## ❓ Need help?
-If you have any questions, you can contact the github guru's.
+Our back-end makes use of the Yahoo Finance API. We use this to access live stock-market data. 🔥
+
+We use JWT authentication to secure our application and connect users to their stocks. 🔑
+
+We use Swagger-UI to test and document our endpoints. 🔄️
+
+## 🐿️ Database
+
+For the database we use PostgreSQL. we have 2 tables: users and stocks. These are connected by a one-to-many relationship. 🐘
