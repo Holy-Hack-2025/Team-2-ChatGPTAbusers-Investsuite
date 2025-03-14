@@ -115,11 +115,13 @@ namespace Backend.Controllers
             }
 
             stocks = stocks.Take(4).ToList();
+            var randomStock = stocks.OrderBy(x => Guid.NewGuid()).First();
 
             var question = new
             {
-                Token = stocks.OrderBy(x => Guid.NewGuid()).First()?.Token,
-                Options = stocks
+                Token = randomStock?.Token,
+                Options = stocks,
+                Name = randomStock?.Name
             };
 
             return Ok(question);
