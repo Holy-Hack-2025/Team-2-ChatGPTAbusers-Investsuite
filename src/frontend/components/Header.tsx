@@ -19,7 +19,7 @@ const Header: React.FC = () => {
     };
 
     return (
-        <header className="p-4 border-bottom bg-gradient-to-br from-purple-900 to-purple-600 flex items-center justify-between">
+        <header className="sticky top-0 z-50 p-4 border-bottom bg-gradient-to-br from-purple-900 to-purple-600 flex items-center justify-between">
             <div className="flex items-center gap-2">
                 <h1 className="text-white text-4xl">Frontend</h1>
             </div>

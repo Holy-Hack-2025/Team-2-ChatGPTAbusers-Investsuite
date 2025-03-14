@@ -32,7 +32,7 @@ const Quiz: React.FC = () => {
     }
 
     return (
-        <>
+        <div className="flex flex-col h-screen">
             <Head>
                 <title>Quiz</title>
                 <meta name="description" content="Quiz app" />
@@ -40,13 +40,11 @@ const Quiz: React.FC = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Header></Header>
-            <main className="h-screen bg-stone-100 content-center">
-                {mode == 'start' && (
-                    <div className="flex flex-col items-center">
-                    <h1 className="mt-2 text-7xl text-gray-800">Test your knowledge!</h1>
+            <main className="flex-grow bg-stone-100 flex items-center justify-center">
+                <div className="flex flex flex-col items-center">
+                    <h1 className="mt-2 text-7xl text-gray-800">Test your knowledge! ignore this bitch </h1>
                     <button className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={getQuestion}>get question</button>
                 </div>
-                )}
                 {mode == 'question' && (
                     <QuestionOverview question={question} handleAnswer={handleAnswer} />
                 )}
@@ -58,7 +56,7 @@ const Quiz: React.FC = () => {
                     </div>
                 )}
             </main>
-        </>
+        </div>
     );
 };
 
