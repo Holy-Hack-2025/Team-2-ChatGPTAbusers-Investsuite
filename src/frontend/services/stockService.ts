@@ -19,7 +19,6 @@ const getMyStocks = async (): Promise<Response> => {
 };
 
 const manageStock = async (stock: string, amount: number): Promise<Response> => {
-    console.log(stock, amount);
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/stock?token=${stock}&amount=${amount}`, {
         method: 'POST',
         headers: {

@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import StockOverview from '@components/stocks/StockOverview';
 
 const Stocks: React.FC = () => {
+    const [stock, setStock] = useState<string>('');
     const [stocks, setStocks] = useState<any[]>([]);
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
 
@@ -27,6 +28,24 @@ const Stocks: React.FC = () => {
             const result = await response.json();
             setStocks(result);
         }
+    };
+
+    const handleAddStock = async (e: React.FormEvent<HTMLFormElement>) => {
+        try {
+            e.preventDefault();
+            const response = await StockService.manageStock(stock, 1);
+
+            if (response.status === 200 || response.status === 204) {
+                const addStockResponse = await response.json();
+                await getStocks();
+                setStock('');
+            } else {
+                showStatusMessage({
+                    message: 'error occured, please try again later',
+                    type: 'error',
+                });
+            }
+        } catch (err: any) {}
     };
 
     useEffect(() => {
@@ -60,6 +79,36 @@ const Stocks: React.FC = () => {
                         </ul>
                     </div>
                 )}
+                <div className="flex justify-between items-center">
+                    <form onSubmit={handleAddStock} className="flex flex-col items-center">
+                        <div>
+                            <div>
+                                <label
+                                    htmlFor="usernameInput"
+                                    className="block mb-2 text-sm font-medium"
+                                >
+                                    Stock
+                                </label>
+                            </div>
+                            <div className="block mb-2 text-sm font-medium">
+                                <input
+                                    id="usernameInput"
+                                    type="text"
+                                    value={stock}
+                                    autoComplete="off"
+                                    onChange={(e) => setStock(e.target.value.replace(/ +/g, ''))}
+                                    className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue:500 block w-full p-2.5"
+                                />
+                            </div>
+                        </div>
+                        <button
+                            className="text-white text-center text-base bg-purple-500 border-2 border-purple-500 rounded-lg px-4 py-2 mt-2 hover:border-black"
+                            type="submit"
+                        >
+                            Add
+                        </button>
+                    </form>
+                </div>
                 <div className="flex flex-col items-center justify-center gap-4">
                     {stocks && (
                         <ul className="flex flex-col items-center gap-8 my-6">
