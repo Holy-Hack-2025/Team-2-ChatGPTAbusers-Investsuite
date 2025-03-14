@@ -3,7 +3,6 @@ using Backend.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
-using System.Net;
 using System.Security.Claims;
 
 namespace Backend.Controllers
@@ -124,10 +123,12 @@ namespace Backend.Controllers
                 return BadRequest("You need more real stocks");
             }
 
+            stocks = stocks.Take(4).ToList();
+
             var question = new
             {
                 Token = stocks.OrderBy(x => Guid.NewGuid()).First()?.Token,
-                Options = stocks.Take(4)
+                Options = stocks
             };
 
             return Ok(question);
