@@ -13,16 +13,40 @@ export type StatusMessage = {
     type: 'error' | 'success';
 };
 
+export type Meta = {
+    currency: string;
+    symbol: string;
+    regularMarketPrice: number;
+    fiftyTwoWeekHigh: number;
+    fiftyTwoWeekLow: number;
+    longName: string;
+    range: string;
+};
+
 export type LineGraphOptions = {
     title: string;
     subtitle?: string;
     yTitle: string;
     xTitle: string;
     start: number;
-    series: Array<Serie>;
+    series: Array<LineGraphSerie>;
 };
 
-export type Serie = {
+export type LineGraphSerie = {
     name: string;
     data: Array<number | null>;
+};
+
+export type PieGraphOptions = {
+    title: string;
+    subtitle?: string;
+    serieName: string;
+    series: Array<PieGraphSerie>;
+};
+
+export type PieGraphSerie = {
+    name: string;
+    y: number;
+    sliced?: boolean;
+    selected?: boolean;
 };
