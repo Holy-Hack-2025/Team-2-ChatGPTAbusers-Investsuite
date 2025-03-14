@@ -62,6 +62,20 @@ namespace Backend.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetStocks()
+        {
+            var userId = GetUserIdFromToken();
+
+            if (userId == null)
+                return Unauthorized("User ID not found in token.");
+
+
+            var userStocks = _db.Stocks.Where(x => x.UserId == userId).ToList();
+
+            return Ok(userStocks);
+        }
+
         [HttpGet("{token}")]
         public async Task<ActionResult<StockInfo>> GetStockHistory(string token)
         {
