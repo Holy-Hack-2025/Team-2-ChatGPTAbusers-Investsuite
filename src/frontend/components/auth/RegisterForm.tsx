@@ -25,26 +25,26 @@ const RegisterForm: React.FC<Props> = ({ requestSwitch }: Props) => {
 
     const validate = (): boolean => {
         let isValid = true;
-        const usernameRegExp = new RegExp(/^[a-zA-Z0-9-_]*$/);
-        const passwordRegExp = new RegExp(
-            /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
-        );
+        // const usernameRegExp = new RegExp(/^[a-zA-Z0-9-_]*$/);
+        // const passwordRegExp = new RegExp(
+        //     /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+        // );
 
-        if (!usernameRegExp.test(username)) {
-            setUsernameError('Username can only contain letters, numbers, dash and underscore.');
-            isValid = false;
-        }
-        if (username.length < 3 || username.length > 25) {
-            setUsernameError('Username must be between 3 and 25 characters.');
-            isValid = false;
-        }
+        // if (!usernameRegExp.test(username)) {
+        //     setUsernameError('Username can only contain letters, numbers, dash and underscore.');
+        //     isValid = false;
+        // }
+        // if (username.length < 3 || username.length > 25) {
+        //     setUsernameError('Username must be between 3 and 25 characters.');
+        //     isValid = false;
+        // }
 
-        if (!passwordRegExp.test(password)) {
-            setPasswordError(
-                'Password must be 8 characters or longer. Password must contain at least one uppercase and one lowercase letter, one number and one special character.'
-            );
-            isValid = false;
-        }
+        // if (!passwordRegExp.test(password)) {
+        //     setPasswordError(
+        //         'Password must be 8 characters or longer. Password must contain at least one uppercase and one lowercase letter, one number and one special character.'
+        //     );
+        //     isValid = false;
+        // }
 
         return isValid;
     };
