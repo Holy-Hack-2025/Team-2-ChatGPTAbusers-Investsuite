@@ -1,10 +1,26 @@
 import Head from 'next/head';
 import Header from '@components/Header';
 import quizService from '@services/quizService';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import QuestionOverview from '@components/Quiz/QuestionOverview';
+import StockService from '@services/stockService';
 
 const Stocks: React.FC = () => {
+
+    useEffect(() => {
+        const getStocks = async () => {
+            const response = await StockService.getMyStocks();
+
+            if (!response.ok) {
+                console.error('Failed to get question');
+            } else {
+                const result = await response.json();
+                console.log(result);
+            };
+        }
+
+        getStocks();
+    }, []);
 
     return (
         <div className="flex flex-col h-screen">
