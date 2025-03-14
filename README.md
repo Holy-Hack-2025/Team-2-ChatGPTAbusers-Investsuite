@@ -8,6 +8,8 @@ The project is split up in front- and back-end. 🚀
 
 The front-end is written in NextJS (React).
 
+Our front-end makes use of the HighCharts NPM Package. We use this to create graphs from live stock-market data. ✏️
+
 ### Pages
 
 - Home: this page is useless. 🤯
