@@ -1,13 +1,9 @@
 type Props = {
     question: any;
+    handleAnswer: (answer: string) => void;
 };
 
-const QuestionOverview: React.FC<Props> = ({ question }: Props) => {
-
-    const handleAnswer = (answer: string) => {
-        console.log(answer == question.token)
-    }
-
+const QuestionOverview: React.FC<Props> = ({ question, handleAnswer }: Props) => {
     return (
         <>
             <div className="flex align-center justify-center text-black">What is the graph of '{question.token}'</div>

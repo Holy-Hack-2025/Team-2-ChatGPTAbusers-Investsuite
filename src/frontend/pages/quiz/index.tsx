@@ -6,7 +6,8 @@ import QuestionOverview from '@components/Quiz/QuestionOverview';
 
 const Quiz: React.FC = () => {
     const [mode, setMode] = useState<string>("start");
-    const [question, setQuestion] = useState<string>("");
+    const [question, setQuestion] = useState<any>(null);
+    const [answer, setAnswer] = useState<boolean>(true);
 
     const getQuestion = async () => {
         const response = await quizService.getQuestion();
@@ -20,6 +21,14 @@ const Quiz: React.FC = () => {
             setQuestion(result);
             setMode('question');
         };
+    }
+
+    const handleAnswer = (answer: string) => {
+        const isTrue: boolean = (answer == question.token);
+        console.log(answer == question.token)
+
+        setAnswer(isTrue);
+        setMode('answer');
     }
 
     return (
@@ -39,9 +48,15 @@ const Quiz: React.FC = () => {
                 </div>
                 )}
                 {mode == 'question' && (
-                    <QuestionOverview question={question} />
+                    <QuestionOverview question={question} handleAnswer={handleAnswer} />
                 )}
-                
+                {mode == 'answer' && (
+                    <div>
+                        {answer == true && (
+                            <h1 className="text-7xl text-green-500 align-center">Correct!</h1>
+                        )}
+                    </div>
+                )}
             </main>
         </>
     );
