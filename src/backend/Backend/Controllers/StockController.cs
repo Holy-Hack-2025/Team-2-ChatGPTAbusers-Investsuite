@@ -33,6 +33,13 @@ namespace Backend.Controllers
             if (stock == null)
             {
                 //TODO: validate that the stock is real
+                var stockInfo = await GetStockInfo(token);
+
+                if (stockInfo == null)
+                {
+                    return BadRequest("no info found on stock");
+                }
+
                 //create
                 stock = new() { Token = token, UserId = userId.Value, Amount = amount };
                 await _db.Stocks.AddAsync(stock);
@@ -151,7 +158,6 @@ namespace Backend.Controllers
 
                 var test = jsonObject.SelectToken("chart.result[0].meta.currency");
 
-                //try catch?
                 var data = new StockInfo()
                 {
                     Currency = jsonObject.SelectToken("chart.result[0].meta.currency").ToString(),
