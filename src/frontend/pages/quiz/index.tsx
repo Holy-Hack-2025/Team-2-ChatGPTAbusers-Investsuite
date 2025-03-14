@@ -41,18 +41,24 @@ const Quiz: React.FC = () => {
             </Head>
             <Header></Header>
             <main className="flex-grow bg-stone-100 flex items-center justify-center">
-                <div className="flex flex flex-col items-center">
-                    <h1 className="mt-2 text-7xl text-gray-800">Test your knowledge! ignore this bitch </h1>
-                    <button className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={getQuestion}>get question</button>
-                </div>
+                {mode == 'start' && (
+                    <div className="flex flex-col items-center">
+                        <h1 className="mt-2 text-7xl text-gray-800">Test your knowledge! </h1>
+                        <button className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={getQuestion}>get question</button>
+                    </div>
+                )}
                 {mode == 'question' && (
                     <QuestionOverview question={question} handleAnswer={handleAnswer} />
                 )}
                 {mode == 'answer' && (
-                    <div>
-                        {answer == true && (
+                    <div className="flex flex-col items-center">
+                        {answer == true ? (
                             <h1 className="text-7xl text-green-500 align-center">Correct!</h1>
+                            
+                        ): (
+                            <h1 className="text-7xl text-red-500 align-center">Incorrect!</h1>
                         )}
+                        <button className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={getQuestion}>Next question</button>
                     </div>
                 )}
             </main>
