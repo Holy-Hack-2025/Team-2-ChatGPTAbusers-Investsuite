@@ -6,6 +6,7 @@ import QuestionOverview from '@components/Quiz/QuestionOverview';
 import StockService from '@services/stockService';
 
 const Stocks: React.FC = () => {
+    const [stocks, setStocks] = useState<any[]>([]);
 
     useEffect(() => {
         const getStocks = async () => {
@@ -16,6 +17,7 @@ const Stocks: React.FC = () => {
             } else {
                 const result = await response.json();
                 console.log(result);
+                setStocks(result);
             };
         }
 
