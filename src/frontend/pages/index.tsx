@@ -27,7 +27,7 @@ const Home: React.FC = () => {
                             lineGraphOptions={{
                                 title: 'Stocks!!!',
                                 yTitle: 'Stock Price (Euro)',
-                                xTitle: 'Year (2015 to 2025)',
+                                xTitle: 'Last 30 days',
                                 start: 2015,
                                 series: [
                                     {

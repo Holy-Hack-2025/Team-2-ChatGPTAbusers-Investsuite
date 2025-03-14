@@ -24,7 +24,7 @@ export type Meta = {
 };
 
 export type LineGraphOptions = {
-    title: string;
+    title?: string;
     subtitle?: string;
     yTitle: string;
     xTitle: string;

@@ -10,7 +10,7 @@ const QuestionOverview: React.FC<Props> = ({ question, handleAnswer }: Props) =>
         return <p className="text-red-500">No data available.</p>;
     }
 
-    console.log("Rendering QuestionOverview with:", question);
+    console.log('Rendering QuestionOverview with:', question);
 
     return (
         <div className="flex flex-col w-full">
@@ -22,16 +22,15 @@ const QuestionOverview: React.FC<Props> = ({ question, handleAnswer }: Props) =>
                         className="w-full bg-gray-200 rounded p-4 cursor-pointer flex flex-col items-center gap-2"
                         onClick={() => handleAnswer(option.token)}
                     >
-                        <span className="text-lg font-semibold">{option.token}</span>
+                        {/* <span className="text-lg font-semibold">{option.token}</span> */}
 
                         {option.historicPrices ? (
-                            <LineGraph 
+                            <LineGraph
                                 lineGraphOptions={{
-                                    title: option.token,
-                                    yTitle: 'Value',
+                                    yTitle: `Stock Price (${option.currency})`,
                                     xTitle: 'Last 30 days',
                                     start: 0,
-                                    series: [{data:option.historicPrices, name: option.token}]
+                                    series: [{ data: option.historicPrices, name: '???' }],
                                 }}
                             />
                         ) : (

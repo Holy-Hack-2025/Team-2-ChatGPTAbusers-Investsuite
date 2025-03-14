@@ -8,15 +8,10 @@ type Props = {
 
 const LineGraph: React.FC<Props> = ({ lineGraphOptions }: Props) => {
     const options = {
+        chart: { width: 512, height: 256 },
         title: {
-            text: lineGraphOptions.title,
-            align: 'left',
-        },
-        subtitle: {
-            text:
-                lineGraphOptions.subtitle ??
-                'By stock worth (<a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" target="_blank">SOURCE</a>)',
-            align: 'left',
+            text: lineGraphOptions.title ?? '???',
+            align: 'center',
         },
         yAxis: {
             title: {
@@ -24,40 +19,15 @@ const LineGraph: React.FC<Props> = ({ lineGraphOptions }: Props) => {
             },
         },
         xAxis: {
+            visible: false,
             title: {
                 text: lineGraphOptions.xTitle,
             },
         },
         legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-        },
-        plotOptions: {
-            series: {
-                label: {
-                    connectorAllowed: false,
-                },
-                pointStart: lineGraphOptions.start,
-            },
+            enabled: false,
         },
         series: lineGraphOptions.series,
-        responsive: {
-            rules: [
-                {
-                    condition: {
-                        maxWidth: 500,
-                    },
-                    chartOptions: {
-                        legend: {
-                            layout: 'horizontal',
-                            align: 'center',
-                            verticalAlign: 'bottom',
-                        },
-                    },
-                },
-            ],
-        },
     };
 
     return <HighchartsReact highcharts={Highcharts} options={options} />;
