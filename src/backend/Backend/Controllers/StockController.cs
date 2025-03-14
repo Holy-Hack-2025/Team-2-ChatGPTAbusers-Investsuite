@@ -1,10 +1,7 @@
 ﻿using Backend.Data;
-using Backend.model;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
-using System.Net.Http;
-using YahooFinanceApi;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Backend.Controllers
 {
@@ -19,6 +16,40 @@ namespace Backend.Controllers
         {
             _db = db;
             _httpClient = new HttpClient();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetStock(string token, int amount)
+        {
+            var userId = GetUserIdFromToken();
+
+            if (userId == null)
+                return Unauthorized("User ID not found in token.");
+
+            //if exists
+            var stock = await _db.Stocks.FirstOrDefaultAsync(s => s.Token == token);
+            if (stock == null)
+            {
+                //create
+                stock = new() { Token = token, UserId = userId.Value, Amount = amount };
+                await _db.Stocks.AddAsync(stock);
+                _db.SaveChanges();
+                return Ok(stock);
+            }
+
+            if (amount == 0)
+            {
+                //delete
+                _db.Stocks.Remove(stock);
+                _db.SaveChanges();
+                return Ok();
+            }
+
+            //update
+            stock.Amount = amount;
+            _db.SaveChanges();
+            return Ok(stock);
+
         }
 
         [HttpGet("{symbol}")]
@@ -40,9 +71,20 @@ namespace Backend.Controllers
             }
             catch (HttpRequestException ex)
             {
-                return StatusCode(500, $"Error fetching data: {ex.Message}");
+                return BadRequest();
             }
         }
 
+        private int? GetUserIdFromToken()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+                return null;
+
+            if (int.TryParse(userIdClaim.Value, out var userId))
+                return userId;
+
+            return null;
+        }
     }
 }
