@@ -46,6 +46,12 @@ const Header: React.FC = () => {
                 )}
                 {loggedInUser && (
                     <>
+                            <Link
+                            href="/stocks"
+                            className="px-4 py-2 text-white text-xl text-white hover:bg-purple-600 rounded-lg"
+                        >
+                            Stocks
+                        </Link>
                         <Link
                             href="/"
                             onClick={handleLogout}
