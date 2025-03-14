@@ -8,6 +8,16 @@ const getStock = async (stock: string) => {
     });
 };
 
+const getMyStocks = async () => {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/stock`), {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: getToken(),
+        }
+    }
+}
+
 const getToken = (): string => {
     const loggedInUser = localStorage.getItem('loggedInUser');
     const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
