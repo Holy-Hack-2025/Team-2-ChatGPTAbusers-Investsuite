@@ -10,27 +10,6 @@ const Home: React.FC = () => {
     const [meta, setMeta] = useState<Meta | null>(null);
     const [close, setClose] = useState<Array<number>>([]);
 
-    const getStock = async () => {
-        const response = await StockService.getStock('AAPL');
-        const aapl = await response.json();
-        const metaData = aapl.chart.result[0].meta;
-        const metaFiltered = {
-            currency: metaData.currency,
-            symbol: metaData.symbol,
-            regularMarketPrice: metaData.regularMarketPrice,
-            fiftyTwoWeekHigh: metaData.fiftyTwoWeekHigh,
-            fiftyTwoWeekLow: metaData.fiftyTwoWeekLow,
-            longName: metaData.longName,
-            range: metaData.range,
-        };
-        setMeta(metaFiltered);
-        setClose(aapl.chart.result[0].indicators.quote[0].close);
-    };
-
-    useEffect(() => {
-        getStock();
-    }, []);
-
     return (
         <>
             <Head>
