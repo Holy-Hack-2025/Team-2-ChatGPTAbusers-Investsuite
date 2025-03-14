@@ -58,20 +58,21 @@ const Quiz: React.FC = () => {
                     <QuestionOverview question={question} handleAnswer={handleAnswer} />
                 )}
                 {mode == 'answer' && (
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center text-black">
                         <h2 className='text-black text-3xl'>Score: {score}/{questionsAnswered}</h2>
                         {answer == true ? (
                             <h1 className="text-7xl text-green-500 align-center">Correct!</h1>
                             
                         ): ( <>
-                            <h1 className="text-7xl text-red-500 align-center">Incorrect! The correct answer was  
-                            </h1> <LineGraph
+                            <h1 className="text-7xl text-red-500 align-center">Incorrect!</h1>
+                            <p className='my-3'>The correct answer was:</p>
+                            <LineGraph
                             lineGraphOptions={{
-                                title: question.options[0].token,
-                                yTitle: `Stock Price (${question.options[0].currency})`,
+                                title: question.token,
+                                yTitle: `Stock Price (${question.options.find((option: any) => option.token === question.token).currency})`,
                                 xTitle: 'Last 30 days',
                                 start: 0,
-                                series: [{ data: question.options[0].historicPrices, name: question.options[0].token }],
+                                series: [{ data: question.options.find((option: any) => option.token === question.token).historicPrices, name: question.token }],
                             }}/> </>)}
                         <button className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={getQuestion}>Next question</button>
                     </div>

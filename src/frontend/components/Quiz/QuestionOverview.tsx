@@ -54,13 +54,13 @@ const QuestionOverview: React.FC<Props> = ({ question, handleAnswer }: Props) =>
                 <>
                     <h3 className="text-black text-center text-2xl">What matches this graph?</h3>
                     <div className="flex justify-center p-3">
-                        {question.options[0].historicPrices ? (
+                        {question.options.find((option: any) => option.token === question.token).historicPrices ? (
                             <LineGraph
                                 lineGraphOptions={{
-                                    yTitle: `Stock Price (${question.options[0].currency})`,
+                                    yTitle: `Stock Price (${question.options.find((option: any) => option.token === question.token).currency})`,
                                     xTitle: 'Last 30 days',
                                     start: 0,
-                                    series: [{ data: question.options[0].historicPrices, name: '???' }],
+                                    series: [{ data: question.options.find((option: any) => option.token === question.token).historicPrices, name: '???' }],
                                 }}
                             />
                         ) : (
