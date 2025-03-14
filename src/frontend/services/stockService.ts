@@ -8,14 +8,14 @@ const getStock = async (stock: string) => {
     });
 };
 
-const getMyStocks = async () => {
-    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/stock`), {
+const getMyStocks = async (): Promise<Response> => {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/stock`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             Authorization: getToken(),
         }
-    }
+    });
 }
 
 const getToken = (): string => {
@@ -26,6 +26,7 @@ const getToken = (): string => {
 
 const StockService = {
     getStock,
+    getMyStocks
 };
 
 export default StockService;
